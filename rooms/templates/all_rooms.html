@@ -1,0 +1,14 @@
+<h1>Hi! All Rooms Here</h1>
+<h2>{{title}}</h2>
+<ul>
+  {% for room in rooms %}
+  <li><a href="/rooms/{{room.pk}}">
+    {{room.name}}<br />
+    {%for amenity in room.amenities.all%}
+    <span>{{amenity.name}}<br /></span>
+    {%endfor%}
+  </li>
+  {%endfor%} {% comment %} room :: Usermade rooms: views.py의 def see_all_rooms
+  > render > rooms변수 임 {% endcomment %}
+  <ul></ul>
+</ul>
