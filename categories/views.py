@@ -25,8 +25,7 @@ def categories(request):  # request객체는 URL안에서 호출된 모든 함�
         # CategorySerializer는 user에게서 온 데이터로만 이 serializer를 만든다는 것을 앎
         if serializer.is_valid() == True:
             new_category = serializer.save()
-            # serializer.save() :: serializer는 create method를 찾음
-
+            # serializer.save() :: serializer는 create-Method를 찾음
             return Response(
                 CategorySerializer(new_category).data,
             )  # 보낸data가 유효한지 검사
@@ -51,14 +50,14 @@ def category(request, pk):
             serializer.data,  # DB에서 넘어오는 django객체를 번역
         )
     elif request.method == "PUT":
-        serializer = CategorySerializer(
-            category,
-            data=request.data,
+        serializer = CategorySerializer(  
+            category,# 사용자가 수정하고 싶어하는 category의 DB에서 가져온
+            data=request.data, # 데이터를 사용자가 보낸 데이터로 만듬
             partial=True,  # input data가 완벽한 형태가 아닐수도 있다고 알려줌
             # partial=True => category를 부분적으로 update할 수 있게 함
         )
         if serializer.is_valid():  # data유효성 check
-            updated_category = serializer.save()
+            updated_category = serializer.save()#serializer.save()를 하게 되면, Django모델에 있는 인스턴스와 사용자 데이터를 사용하여 자동을 update-Method를 실행
             return Response(CategorySerializer(updated_category).data)
         else:
             return Response(serializer.errors)

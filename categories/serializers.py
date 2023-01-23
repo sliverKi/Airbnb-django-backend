@@ -41,9 +41,9 @@ class CategorySerializer(serializers.Serializer):
     # if requested.data로만 생성한 serializer에서 save메서드를 호출하면
     # 그때가 바로 serializer가 create method를 호출하는 순간이다.
 
-    def update(self, instance, validate_data):
-        instance.name = validate_data.get("name", instance.name)
-        instance.kind = validate_data.get("kind", instance.kind)
+    def update(self, instance, validate_data):  # instance :: 너가 update하려는 model / validate_data :: user-data
+        instance.name = validate_data.get("name", instance.name)  # update-Method는 validate_date에서 사용자 데이터를 가져오고,
+        instance.kind = validate_data.get("kind", instance.kind)  # 만약에 거기에 데이터가 없으면 DB에 있는 기본값(instance)을 사용함.
         instance.save()
         return instance
         # update method :: 다른 곳에서 save method를 실행한 경우에 호출 되어짐
