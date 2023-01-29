@@ -1,0 +1,17 @@
+{
+    "name": "House created with DRF",
+    "country": "한국",
+    "city": "Seoul",
+    "price": 1000,
+    "rooms": 2,
+    "toilets": 2,
+    "description": "DRF is great",
+    "address": "Seoul, 123",
+    "pet_friendly": true,
+    "kind": "private_room"
+}
+
+// "amenities": [{"name":"test", "description":"test"}],
+// "category":{"name": "test", "kind":"rooms"},
+//  "amenities": 왜 리스트로 받는 이유 ? => MtM field  
+//  "category": 왜 딕셔너리로 받는 이유? =>FK field

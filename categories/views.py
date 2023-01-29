@@ -5,8 +5,44 @@ from .serializers import CategorySerializer
 from .models import Category
 from rest_framework.exceptions import NotFound
 from rest_framework.status import HTTP_204_NO_CONTENT
+from rest_framework.views import APIView
+from rest_framework.viewsets import ModelViewSet
 
 
+# serializer : Django Python 객체를 JSON으로 번역하는 것
+# serializer : user에게 온 data를 받아서 우리의 DB에 넣을 수 있는 Django 객체로 바꿔준다
+
+#ModelViewSet
+class CategoryViewSet(ModelViewSet):
+    serializer_class = CategorySerializer #Serializer가 뭔지 알아야 함
+    queryset=Category.objects.all() #ViewSet의 object가 뭔지 알아야 함
+    
+
+"""VERSION2
+class Categories(APIView):  # APIView 내부에는 GET/POST/PUT/DELETE 메서드가 있다.
+    # 따라서 APIView가 사용자의 요청 메서드에 따라 request를 라우팅 해준다.
+    def get(self, request):
+        all_categories = Category.objects.all()
+        serializer = CategorySerializer(all_categories, many=True)
+
+        return Response(
+            serializer.data,
+        )
+
+    def post(self, request):
+        serializer = CategorySerializer(
+            data=request.data,
+        )
+        if serializer.is_valid() == True:
+            new_category = serializer.save()
+            return Response(
+                CategorySerializer(new_category).data,
+            )
+        else:
+            return Response(serializer.errors)
+"""
+
+"""VERSION1
 @api_view(["GET", "POST"])
 def categories(request):  # request객체는 URL안에서 호출된 모든 함수에게 주어진다.==api_view
     if request.method == "GET":
@@ -32,35 +68,73 @@ def categories(request):  # request객체는 URL안에서 호출된 모든 함�
 
         else:
             return Response(serializer.errors)
+"""
 
+"""VERSION2
+class CategoryDetail(APIView):
+    # 문제 각 메서드에서 category를 찾아야 해,,
+    def get_object(self, pk):  # get_object로 객체를 가져온뒤 각 메서드에서 공유
+        try:
+            return Category.objects.get(pk=pk)
+        except Category.DoesNotExist:
+            raise NotFound
 
-# serializer : Django Python 객체를 JSON으로 번역하는 것
-# serializer : user에게 온 data를 받아서 우리의 DB에 넣을 수 있는 Django 객체로 바꿔준다
+    def get(self, request, pk):
+        serializer = CategorySerializer(self.get_object(pk))  # many=True ::설정하지 않아도 되는 이유:: 어차피 하나만 보내고 있기 때문
+        print(serializer)  # ModelSerializer를 사용해서 얻을 수 있는 serializer를 알 수 있어 -> 확인: 자동으로 만들어진다
+        return Response(
+            serializer.data,  # DB에서 넘어오는 django객체를 번역
+        )
 
+    def put(self, request, pk):
+        serializer = CategorySerializer(
+            self.get_object(pk),  # 사용자가 수정하고 싶어하는 category의 DB에서 가져온
+            data=request.data,  # 데이터를 사용자가 보낸 데이터로 만듬
+            partial=True,  # input data가 완벽한 형태가 아닐수도 있다고 알려줌
+            # partial=True => category를 부분적으로 update할 수 있게 함
+        )
+        if serializer.is_valid():  # data유효성 check
+            updated_category = (
+                serializer.save()
+            )  # serializer.save()를 하게 되면, Django모델에 있는 인스턴스와 사용자 데이터를 사용하여 자동을 update-Method를 실행
+            return Response(CategorySerializer(updated_category).data)
+        else:
+            return Response(serializer.errors)
 
-@api_view(["GET", "PUT", "DELETE"])
+    def delete(self, request, pk):
+        self.get_object(pk).delete()
+        return Response(status=HTTP_204_NO_CONTENT)
+"""
+
+"""VERSION1
 def category(request, pk):
     try:
         category = Category.objects.get(pk=pk)
     except Category.DoesNotExist:
         raise NotFound
-    if request.method == "GET":
+    
+    if request.method=="GET":
         serializer = CategorySerializer(category)  # many=True ::설정하지 않아도 되는 이유:: 어차피 하나만 보내고 있기 때문
         return Response(
             serializer.data,  # DB에서 넘어오는 django객체를 번역
         )
-    elif request.method == "PUT":
-        serializer = CategorySerializer(  
-            category,# 사용자가 수정하고 싶어하는 category의 DB에서 가져온
-            data=request.data, # 데이터를 사용자가 보낸 데이터로 만듬
+
+    elif request.method=="PUT":
+        serializer = CategorySerializer(
+            category,  # 사용자가 수정하고 싶어하는 category의 DB에서 가져온
+            data=request.data,  # 데이터를 사용자가 보낸 데이터로 만듬
             partial=True,  # input data가 완벽한 형태가 아닐수도 있다고 알려줌
             # partial=True => category를 부분적으로 update할 수 있게 함
         )
         if serializer.is_valid():  # data유효성 check
-            updated_category = serializer.save()#serializer.save()를 하게 되면, Django모델에 있는 인스턴스와 사용자 데이터를 사용하여 자동을 update-Method를 실행
+            updated_category = (
+                serializer.save()
+            )  # serializer.save()를 하게 되면, Django모델에 있는 인스턴스와 사용자 데이터를 사용하여 자동을 update-Method를 실행
             return Response(CategorySerializer(updated_category).data)
         else:
             return Response(serializer.errors)
-    elif request.method == "DELETE":
+    
+    elif request.method=="DELETE":
         category.delete()
         return Response(status=HTTP_204_NO_CONTENT)
+"""

@@ -22,4 +22,5 @@ urlpatterns = [
     path("api/v1/rooms/", include("rooms.urls")),
     # rooms 파일로 가서 -> urls.py를 찾음
     path("api/v1/categories/", include("categories.urls")),
+    path("api/v1/experiences/", include("experiences.urls")),
 ]
