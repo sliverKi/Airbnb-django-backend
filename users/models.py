@@ -30,7 +30,7 @@ class User(AbstractUser):  # AbstractUser를 상속받음
     is_host = models.BooleanField(
         default=False,
     )
-    avatar = models.ImageField(
+    avatar = models.URLField(
         null=True,
         blank=True,
     )
@@ -54,3 +54,4 @@ class User(AbstractUser):  # AbstractUser를 상속받음
     # name, is_host field는 null값을 가질 수 없음.
     # name, is_host field is non-nullable field
     # BooleanField, and Charfield also cannot be null
+            

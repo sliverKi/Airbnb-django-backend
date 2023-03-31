@@ -69,7 +69,8 @@ class Room(CommonModel):
             for review in room.reviews.all().values("rating"):
                 total_rating += review["rating"]  # review==dict
         return round(total_rating / count, 2)  # 소수점 두자리까지만 출력
-
+#11.11:: room model의 rating-field를 내 serializer에서도 부르고 싶을떄 하는 방법
+#~>내가 만든 function을 호출해서 그 결과를 serializer-field에 넣는 방법
 
 class Amenity(CommonModel):
     """Amenity Definition"""

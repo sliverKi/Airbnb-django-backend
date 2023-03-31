@@ -1,7 +1,8 @@
 {
-    "python.formatting.provider": "black",
-    "python.formatting.blackArgs": ["--line-length", "120"], 
-    "editor.formatOnSave": true,	
-    "editor.formatOnPaste": true,
-    "editor.formatOnType": true,
+  "python.formatting.provider": "black",
+  "python.formatting.blackArgs": ["--line-length", "120"],
+  "editor.formatOnSave": true,
+  "editor.formatOnPaste": true,
+  "editor.formatOnType": true,
+  "cSpell.words": ["isnegative"]
 }

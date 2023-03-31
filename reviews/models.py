@@ -14,12 +14,16 @@ class Review(CommonModel):
     )
     # 둘 다 보낸는건 불가능
     # room or experience
+    
+    
     room = models.ForeignKey(
-        "rooms.Room",
+        "rooms.Room", #room.reviews.all() :: 방을 가리키고 있는 모든 리뷰를 알 수 있다.
         null=True,
         blank=True,
         on_delete=models.CASCADE,
         related_name="reviews",
+        #related_name을 사용하게 되면, 이 방을 가리키고 있는 모든 리뷰에 접근하는 방법을 명시할 수 있다. 
+        #따라서 우리는 방이 rooms.reviews라는 것을 가지고 있다는 말을 할 수 있다.   
     )
     experience = models.ForeignKey(
         "experiences.Experience",

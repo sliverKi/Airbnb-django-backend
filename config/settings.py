@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/4.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
-
+#>>4/01
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -137,3 +137,10 @@ STATIC_URL = "static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 AUTH_USER_MODEL = "users.User"
+
+MEDIA_ROOT="uploads"
+#DB저장(file이 실제로 있는 위치)
+MEDIA_URL="user-uploads/"
+#upload된 파일에 접근하여 화면에 노출 시킴
+
+PAGE_SIZE=3

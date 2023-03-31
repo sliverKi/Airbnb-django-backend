@@ -20,7 +20,7 @@ class Experience(CommonModel):
     host = models.ForeignKey(  # experiences_model pointing to User model
         "users.User",  # User model은 experience_Model로 부터 자동으로 experience_set을 받게 됨
         on_delete=models.CASCADE,
-        related_name="experiences",
+        related_name="experiences",#related_name을 사용하게 되면, 모든 리뷰에 접근하는 방법을 명시할 수 있다.
     )
     price = models.PositiveIntegerField()
     address = models.CharField(

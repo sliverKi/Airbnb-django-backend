@@ -1,0 +1,13 @@
+##EXPERIENCES
+
+GET,  POST /experiences [X]
+GET PUT DELETE /experiences/1 [X]
+
+GET /experiences/1/perks [X]
+
+GET POST /perks [X]
+GET PUT DELETE /perks/1 [X]
+
+GET POST /experiences/1/bookings [X]
+GET PUT DELETE [...ing] /experiences/1/bookings/2=> error 발생 
+#user가 booking_id를 보내면 experience에 book_id 추가 

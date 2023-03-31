@@ -4,13 +4,13 @@ from common.models import CommonModel
 
 class Photo(CommonModel):
 
-    file = models.ImageField()
+    file = models.URLField()
     description = models.CharField(
         max_length=150,
     )
 
-    room = models.ForeignKey(
-        "rooms.Room",
+    room = models.ForeignKey(#Photo Model은 방을 가리키는 외래키를 사용하고 있다.
+        "rooms.Room", #즉 방은 역접근자 또는 related_name을 이용하여 자기를 가리키는 모든 사진을 가져올 수 있다. 
         null=True,
         blank=True,
         on_delete=models.CASCADE,
@@ -29,7 +29,7 @@ class Photo(CommonModel):
 
 
 class Video(CommonModel):
-    file = models.FileField()
+    file = models.URLField()
     experience = models.OneToOneField(
         "experiences.Experience",
         null=True,
